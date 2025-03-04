@@ -37,6 +37,12 @@ export default defineNuxtConfig({
 
     compatibilityDate: '2024-08-03',
 
+    nitro: {
+        prerender: {
+            ignore: ['/api/stats'],
+        },
+    },
+
     components: [
         { path: '~/components/partial', prefix: 'Z' },
         { path: '~/components/zhilu', prefix: 'Zhilu', global: true },

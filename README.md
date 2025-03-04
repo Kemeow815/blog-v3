@@ -93,6 +93,39 @@ pnpm dev
 
 `content/` 目录下仅保留 `link.md`，在 `app.config.ts` 中将 `footer.nav[2].items[1].url` 由 `/theme` 改为 `https://blog.zhilu.cyou/theme` 即可。
 
+### 解决部分更新后的bug
+
+1. `pnpm generate`后出现`ERROR  Exiting due to prerender errors.`
+
+```
+├─ /api/stats (1112ms)                                                                                                                       nitro 23:45:59
+│ └── [500]
+```
+
+出现报错可在`nuxt.config.ts`中忽略此路由的预渲染错误，添加如下配置：
+
+```
+// nuxt.config.ts
+export default defineNuxtConfig({
+  nitro: {
+    prerender: {
+      ignore: ["/api/stats"]
+    }
+  }
+})
+```
+
+2. vercel部署失败
+
+```
+// eslint-disable-next-line no-irregular-whitespace
+ERR_PNPM_LOCKFILE_CONFIG_MISMATCH  Cannot proceed with the frozen installation. The current "patchedDependencies" configuration doesn't match the value found in the lockfile
+Update your lockfile using "pnpm install --no-frozen-lockfile"
+Error: Command "pnpm install" exited with 1
+```
+
+可在设置里修改`install command`为`pnpm install --no-frozen-lockfile`。
+
 ### 创建文章
 
 ```sh

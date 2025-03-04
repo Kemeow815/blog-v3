@@ -13,6 +13,7 @@ export default defineAppConfig({
             经验分享: { icon: 'ph:mouse-bold', color: '#3af' },
             生活: { icon: 'ph:shooting-star-bold', color: '#3ba' },
             代码: { icon: 'ph:code-bold', color: '#77f' },
+            技术分享: { icon: 'ph:share-network-bold', color: '#f3a' },
             未分类: { icon: 'ph:folder-dotted-bold' },
         },
         defaultCategoryIcon: 'ph:folder-bold',
@@ -42,8 +43,8 @@ export default defineAppConfig({
         /** 侧边栏底部图标导航 */
         iconNav: [
             { icon: 'ph:house-bold', text: '个人主页', url: blogConfig.author.homepage },
-            { icon: 'ri:qq-line', text: '交流群: 169994096', url: 'https://jq.qq.com/?_wv=1027&k=lQfNSeEd' },
-            { icon: 'ph:github-logo-bold', text: 'GitHub: L33Z22L11', url: 'https://github.com/L33Z22L11' },
+            { icon: 'mdi:telegram', text: '频道', url: 'https://t.me/kemiaofx_me' },
+            { icon: 'ph:github-logo-bold', text: 'GitHub: 克喵Kemeow', url: 'https://github.com/Kemeow815' },
             { icon: 'ph:rss-simple-bold', text: 'Atom订阅', url: '/atom.xml' },
             { icon: 'ph:subway-bold', text: '开往', url: 'https://www.travellings.cn/go-by-clouds.html' },
         ] satisfies NavItem[],
@@ -60,8 +61,8 @@ export default defineAppConfig({
             {
                 title: '社交',
                 items: [
-                    { icon: 'ph:github-logo-bold', text: 'L33Z22L11', url: 'https://github.com/L33Z22L11' },
-                    { icon: 'ri:qq-line', text: '群: 169994096', url: 'https://jq.qq.com/?_wv=1027&k=lQfNSeEd' },
+                    { icon: 'ph:github-logo-bold', text: '克喵Kemeow', url: 'https://github.com/Kemeow815' },
+                    { icon: 'mdi:telegram', text: '电报频道', url: 'https://t.me/kemiaofx_me' },
                     { icon: 'ph:envelope-simple-bold', text: blogConfig.author.email, url: `mailto:${blogConfig.author.email}` },
                 ],
             },
@@ -69,7 +70,7 @@ export default defineAppConfig({
                 title: '信息',
                 items: [
                     { icon: 'simple-icons:nuxtdotjs', text: 'Nuxt博客已开源', url: 'https://github.com/L33Z22L11/blog-v3' },
-                    { icon: 'ph:swatches-bold', text: '主题灵感源自Stellar', url: '/theme' },
+                    { icon: 'ph:swatches-bold', text: '主题灵感源自Stellar', url: 'https://blog.zhilu.cyou/theme' },
                     { icon: 'ph:certificate-bold', text: '萌ICP备20246888号', url: 'https://icp.gov.moe/?keyword=20246888' },
                 ],
             },
@@ -80,7 +81,7 @@ export default defineAppConfig({
 
     /** 左侧栏顶部 Logo */
     header: {
-        logo: 'https://weavatar.com/avatar/47c0f2e82b76d9b10eb3023df9e02e4e3fdbeaf5b74b842063f207971e7fbe7b?s=160',
+        logo: '/img/blog1actavor.jpg',
         /** 展示标题文本，否则展示纯 Logo */
         showTitle: true,
         subtitle: blogConfig.subtitle,
@@ -92,13 +93,13 @@ export default defineAppConfig({
         /** 默认排序方式，需要是 this.article.order 中的键名 */
         sortOrder: 'date' as const,
         /** 允许（普通/预览/归档）文章列表正序，开启后排序方式左侧图标可切换顺序 */
-        allowAscending: false,
+        allowAscending: true,
     },
 
     /** 左侧栏导航 */
     nav: [
         {
-            title: '',
+            title: '导航',
             items: [
                 { icon: 'ph:files-bold', text: '文章', url: '/' },
                 { icon: 'ph:link-bold', text: '友链', url: '/link' },
