@@ -28,7 +28,7 @@ const blogConfig = {
     tgGroup: 'https://t.me/kemiao_me',
     timeEstablished: '2025-02-11',
     timezone: 'Asia/Shanghai',
-    url: 'https://blog.zhilu.cyou/',
+    url: 'https://blog-v3.kemeow.top/',
 
     feed: {
         limit: 50,

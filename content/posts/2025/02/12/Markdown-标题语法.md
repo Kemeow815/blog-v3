@@ -29,7 +29,7 @@ recommend: 2
 | Markdown语法                            | HTML                       | <div style="width:100px;">预览效果</div> |
 | --------------------------------------- | -------------------------- | ---------------------------------------- |
 | `Heading level 1`<br> `===============` | &lt;h1&gt;Heading level 1&lt;/h1&gt; | <h1>Heading level 1</h1>                 |
-| `Heading level 2`<br>---------------    | &lt;h2&gt;Heading level 2&lt;/h2&gt; | <h2>Heading level 2</h2>                 |
+| `Heading level 2`<br>`---------------`   | &lt;h2&gt;Heading level 2&lt;/h2&gt; | <h2>Heading level 2</h2>                 |
 
 ## 最佳实践
 不同的 **Markdown** 应用程序处理 `#` 和标题之间的空格方式并不一致。为了兼容考虑，请用一个空格在 `#` 和标题之间进行分隔。
