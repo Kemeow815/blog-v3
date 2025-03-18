@@ -29,8 +29,8 @@ const { data: postLink } = await useAsyncData('/link', () => queryContent('/link
         <div class="content">
             <p><Icon name="ph:newspaper-clipping-bold" /> 我会通过订阅源阅读友链文章。</p>
             <p>
-                欢迎加入 QQ 群 <Tip copy>
-                    {{ appConfig.qqGroup }}
+                欢迎加入 电报 群组 <Tip copy>
+                    {{ appConfig.tgGroup }}
                 </Tip> 闲聊或技术交流。
             </p>
             <p>
