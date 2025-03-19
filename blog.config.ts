@@ -11,10 +11,10 @@ const blogConfig = {
     title: '克喵的小栈',
     subtitle: '致力于分享资源和生活~',
     // 长 description 利好于 SEO
-    description: '克喵的个人博客，分享技资源与生活。“折腾不止，摸鱼生活——摸门🙏🏻”。这个博客记录了我在生活和资源分享中的点滴经历。',
+    description: '克喵的个人博客，分享资源与生活。“折腾不止，摸鱼生活——摸门🙏🏻”。这个博客记录了我在生活和资源分享中的点滴经历。',
     author: {
         name: '克喵爱吃卤面',
-        avatar: 'https://cdn.jsdelivr.net/gh/kmfx/tuchuang@main/img/202503171226033.png',
+        avatar: 'https://weavatar.com/avatar/b939ac653b652f8e3e877dede118d1a128ed13001cb9fb7e612446bab3fe2bac?s=160',
         email: 'kemiao@kmblog.icu',
         homepage: 'https://github.com/Kemeow815',
     },
@@ -23,7 +23,7 @@ const blogConfig = {
         name: '署名-非商业性使用-相同方式共享 4.0 国际',
         url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans',
     },
-    favicon: 'https://cdn.jsdelivr.net/gh/kmfx/tuchuang@main/img/202503171226033.png',
+    favicon: '/image/avatar.webp',
     language: 'zh-Hans',
     tgGroup: 'https://t.me/kemiao_me',
     timeEstablished: '2025-02-11',
