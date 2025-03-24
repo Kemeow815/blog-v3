@@ -7,7 +7,7 @@ hide-info: true
 
 这是克喵爱吃卤面，一个普普通通的南京大学牲，专业是自动化技术与应用（没错，就是传说中的机器人专业），目前大二在读。
 
-在2023年年初，我接触了小绿书，从次一发不可收拾。年末接触TG，认识了资源分享博主：[资源分享](https://t.me/txwl666)、[好软分享](https://t.me/haoruanfenxiang)，
+在2023年年初，我接触了小绿书，从此一发不可收拾。年末接触TG，认识了资源分享博主：[资源分享](https://t.me/txwl666)、[好软分享](https://t.me/haoruanfenxiang)，
 
 从他们那里获得了不少的资源，也认识了众多大佬。24年末接触了博客，第一个博客是<https://github.com/ccbikai/BroadcastChannel>，而后接触[Hexo](https://hexo.io/zh-cn/)博客
 
