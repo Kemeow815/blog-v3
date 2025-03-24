@@ -12,7 +12,8 @@
     "preview": "nuxt preview",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "new": "node scripts/new-blog.js"
+    "new": "node scripts/new-blog.js",
+    "start": "nuxt generate && nuxt preview"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
