@@ -7,11 +7,44 @@ hide-info: true
 
 这是克喵爱吃卤面，一个普普通通的南京大学牲，专业是自动化技术与应用（没错，就是传说中的机器人专业），目前大二在读。
 
-在2023年年初，我接触了小绿书，从此一发不可收拾。年末接触TG，认识了资源分享博主：[资源分享](https://t.me/txwl666)、[好软分享](https://t.me/haoruanfenxiang)，
+2023年
+🌱 年初
 
-从他们那里获得了不少的资源，也认识了众多大佬。24年末接触了博客，第一个博客是<https://github.com/ccbikai/BroadcastChannel>，而后接触[Hexo](https://hexo.io/zh-cn/)博客
+├── 初次接触「小绿书」
 
-[Butterfly](https://butterfly.js.org/)主题，使用[Vercel](https://vercel.com/)托管，在今年二月接触了nuxt全栈，搭建了这个博客。
+└── 开启技术内容分享与学习之路
+
+❄️ 年末
+
+├── 加入 Telegram 技术社群
+
+├── 关注资源分享渠道：
+
+│   ├️ [@txwl666 (资源分享)](https://t.me/txwl666)
+
+│   └️ [@haoruanfenxiang (好软分享)](https://t.me/haoruanfenxiang)
+
+└── 建立技术资源获取网络
+
+2024年
+
+❄️ 年末
+
+├── 开启个人博客实验：
+
+│   ├️ 首版博客源码：[BroadcastChannel](https://github.com/ccbikai/BroadcastChannel)
+
+│   ├️ 框架方案：[Hexo](https://hexo.io/zh-cn/) + [Butterfly](https://butterfly.js.org/)
+
+│   └️ 部署托管平台：[Vercel](https://vercel.com/)
+
+2025年
+
+🌸 二月
+
+└── 技术升级：使用 Nuxt 全栈博客
+
+└── 当前博客版本上线
 
 单机游戏爱好者：饥荒，启动！杰出SM！
 
