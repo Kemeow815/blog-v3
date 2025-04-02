@@ -11,7 +11,7 @@ hide-info: true
 
 从他们那里获得了不少的资源，也认识了众多大佬。24年末接触了博客，第一个博客是<https://github.com/ccbikai/BroadcastChannel>，而后接触[Hexo](https://hexo.io/zh-cn/)博客
 
-[Butterfly](https://butterfly.js.org/)主题，使用[Vercel](https://vercel.com/)托管，在今年二月解除了nuxt全栈，搭建了这个博客。
+[Butterfly](https://butterfly.js.org/)主题，使用[Vercel](https://vercel.com/)托管，在今年二月接触了nuxt全栈，搭建了这个博客。
 
 单机游戏爱好者：饥荒，启动！杰出SM！
 

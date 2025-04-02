@@ -22,9 +22,14 @@
     "embla-carousel-vue": "^8.5.2",
     "embla-carousel-wheel-gestures": "^8.0.1",
     "fast-xml-parser": "^5.0.9",
+    "highlight.js": "^11.11.1",
+    "marked": "^15.0.7",
+    "moment": "^2.30.1",
     "parse-domain": "^8.2.2",
     "plain-shiki": "^0.2.0",
     "radash": "^12.1.0",
+    "view-image": "^0.0.1",
+    "vue-lazyload": "^3.0.0",
     "vue-tippy": "^6.7.0"
   },
   "devDependencies": {
