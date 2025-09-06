@@ -123,23 +123,23 @@ onMounted(fetchTotalStats)
 			<div v-else-if="error" class="stats-error">
 				{{ error }}
 			</div>
-			<div class="stats-content">
+			<div v-else-if="stats" class="stats-content">
 				<div class="stats-range-section">
 					<h3>总览统计</h3>
 					<div class="stats-grid">
-						<!-- 浏览量 -->
 						<div class="stat-item">
 							<span class="stat-value">
-								<template v-if="stats.pageviews.value === 0 && !loading">--</template>
+								<template v-if="stats.pageviews.value === 0">--</template>
 								<template v-else>{{ stats.pageviews.value }}</template>
 							</span>
 							<span class="stat-label">浏览量</span>
 						</div>
 
 						<!-- 访客数 -->
+						<!-- 访客数 -->
 						<div class="stat-item">
 							<span class="stat-value">
-								<template v-if="stats.visitors.value === 0 && !loading">--</template>
+								<template v-if="stats.visitors.value === 0">--</template>
 								<template v-else>{{ stats.visitors.value }}</template>
 							</span>
 							<span class="stat-label">访客数</span>
@@ -148,7 +148,7 @@ onMounted(fetchTotalStats)
 						<!-- 访问次数 -->
 						<div class="stat-item">
 							<span class="stat-value">
-								<template v-if="stats.visits.value === 0 && !loading">--</template>
+								<template v-if="stats.visits.value === 0">--</template>
 								<template v-else>{{ stats.visits.value }}</template>
 							</span>
 							<span class="stat-label">访问次数</span>
@@ -157,7 +157,7 @@ onMounted(fetchTotalStats)
 						<!-- 分钟停留 -->
 						<div class="stat-item">
 							<span class="stat-value">
-								<template v-if="stats.totaltime.value === 0 && !loading">--</template>
+								<template v-if="stats.totaltime.value === 0">--</template>
 								<template v-else>{{ Math.round(stats.totaltime.value / 60) }}</template>
 							</span>
 							<span class="stat-label">分钟停留</span>
