@@ -10,6 +10,7 @@ const UMAMI_CONFIG = {
 let cachedToken: string | null = null
 let tokenExpiry: number | null = null
 
+/* ---------- 类型定义 ---------- */
 interface UmamiAuthResponse {
 	token: string
 	user: {
@@ -22,26 +23,11 @@ interface UmamiAuthResponse {
 }
 
 interface UmamiStatsData {
-	pageviews: {
-		value: number
-		prev: number
-	}
-	visitors: {
-		value: number
-		prev: number
-	}
-	visits: {
-		value: number
-		prev: number
-	}
-	bounces: {
-		value: number
-		prev: number
-	}
-	totaltime: {
-		value: number
-		prev: number
-	}
+	pageviews: { value: number, prev: number }
+	visitors: { value: number, prev: number }
+	visits: { value: number, prev: number }
+	bounces: { value: number, prev: number }
+	totaltime: { value: number, prev: number }
 }
 
 interface TimeRangeDefinition {
@@ -49,95 +35,87 @@ interface TimeRangeDefinition {
 	endAt: number
 }
 
+/* ---------- 工具函数 ---------- */
 async function getUmamiToken(): Promise<string> {
-	if (cachedToken && tokenExpiry && Date.now() < tokenExpiry) {
+	if (cachedToken && tokenExpiry && Date.now() < tokenExpiry)
 		return cachedToken
-	}
 
-	const response = await fetch(`${UMAMI_CONFIG.serverUrl}/api/auth/login`, {
+	const res = await fetch(`${UMAMI_CONFIG.serverUrl}/api/auth/login`, {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			'Accept': 'application/json',
-		},
+		headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
 		body: JSON.stringify({
 			username: UMAMI_CONFIG.username,
 			password: UMAMI_CONFIG.password,
 		}),
 	})
 
-	if (!response.ok) {
-		throw new Error(`认证失败: ${response.status} ${response.statusText}`)
-	}
+	if (!res.ok)
+		throw new Error(`认证失败: ${res.status} ${res.statusText}`)
 
-	const data: UmamiAuthResponse = await response.json()
+	const data: UmamiAuthResponse = await res.json()
 	cachedToken = data.token
 	tokenExpiry = Date.now() + 60 * 60 * 1000
-
 	return data.token
 }
 
 async function verifyToken(token: string): Promise<boolean> {
 	try {
-		const response = await fetch(`${UMAMI_CONFIG.serverUrl}/api/auth/verify`, {
+		const res = await fetch(`${UMAMI_CONFIG.serverUrl}/api/auth/verify`, {
 			method: 'POST',
-			headers: {
-				Authorization: `Bearer ${token}`,
-				Accept: 'application/json',
-			},
+			headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
 		})
-		return response.ok
+		return res.ok
 	}
 	catch {
 		return false
 	}
 }
 
-async function fetchStatsForDefinedRange(token: string, rangeDef: TimeRangeDefinition): Promise<UmamiStatsData> {
-	const { startAt, endAt } = rangeDef
-
-	const response = await fetch(
-		`${UMAMI_CONFIG.serverUrl}/api/websites/${UMAMI_CONFIG.websiteId}/stats?startAt=${startAt}&endAt=${endAt}`,
-		{
-			headers: {
-				Authorization: `Bearer ${token}`,
-				Accept: 'application/json',
-			},
-		},
+async function fetchStatsForDefinedRange(
+	token: string,
+	rangeDef: TimeRangeDefinition,
+): Promise<UmamiStatsData> {
+	const res = await fetch(
+		`${UMAMI_CONFIG.serverUrl}/api/websites/${UMAMI_CONFIG.websiteId}/stats?startAt=${rangeDef.startAt}&endAt=${rangeDef.endAt}`,
+		{ headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' } },
 	)
 
-	if (!response.ok) {
-		throw new Error(`获取统计数据失败: ${response.status} ${response.statusText}`)
-	}
-
-	return await response.json()
+	if (!res.ok)
+		throw new Error(`获取统计数据失败: ${res.status} ${res.statusText}`)
+	return await res.json()
 }
 
+/* ---------- 主入口 ---------- */
 export default defineEventHandler(async (event) => {
-	try {
-		const token = await getUmamiToken()
-
-		const isValid = await verifyToken(token)
-		if (!isValid) {
-			cachedToken = null
-			tokenExpiry = null
-			throw createError({
-				statusCode: 401,
-				statusMessage: '无效的认证令牌',
-			})
-		}
-
-		const totalTimeRange: TimeRangeDefinition = {
-			startAt: 0,
-			endAt: Date.now(),
-		}
-
-		const totalStats = await fetchStatsForDefinedRange(token, totalTimeRange)
-
+	// 预渲染阶段：直接返回空数据，不请求远端
+	if (import.meta.prerender) {
 		return {
 			success: true,
-			data: totalStats,
+			data: {
+				pageviews: { value: 0, prev: 0 },
+				visitors: { value: 0, prev: 0 },
+				visits: { value: 0, prev: 0 },
+				bounces: { value: 0, prev: 0 },
+				totaltime: { value: 0, prev: 0 },
+			},
 		}
+	}
+
+	// 运行阶段：走远端
+	try {
+		const token = await getUmamiToken()
+		if (!(await verifyToken(token))) {
+			cachedToken = null
+			tokenExpiry = null
+			throw createError({ statusCode: 401, statusMessage: '无效的认证令牌' })
+		}
+
+		const totalStats = await fetchStatsForDefinedRange(token, {
+			startAt: 0,
+			endAt: Date.now(),
+		})
+
+		return { success: true, data: totalStats }
 	}
 	catch (error: any) {
 		throw createError({
