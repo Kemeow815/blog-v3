@@ -39,8 +39,8 @@ jobs:
 
       # 4️⃣ 构建（跳过 /api/umami）
       - name: 4️⃣ 开始构建
-        env:
-          LOCAL_GENERATE: true
+        # env:
+        #   LOCAL_GENERATE: true
         run: pnpm generate
 
       # 5️⃣ 产物大小检查
