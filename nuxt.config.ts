@@ -5,7 +5,7 @@ import blogConfig from './blog.config'
 import packageJson from './package.json'
 import redirectList from './redirects.json'
 
-const isLocalGenerate = process.env.LOCAL_GENERATE === 'true'
+// const isLocalGenerate = process.env.LOCAL_GENERATE === 'true'
 
 // 此处配置无需修改
 export default defineNuxtConfig({
@@ -74,9 +74,9 @@ export default defineNuxtConfig({
 		'/kemiao.opml': { prerender: true, headers: { 'Content-Type': 'application/xml' } },
 
 		// ✅ 只在非本地生成时预渲染 /api/umami
-		...(!isLocalGenerate && {
-			'/api/umami': { prerender: true, headers: { 'Content-Type': 'application/json' } },
-		}),
+		// ...(!isLocalGenerate && {
+		// 	'/api/umami': { prerender: true, headers: { 'Content-Type': 'application/json' } },
+		// }),
 	},
 
 	runtimeConfig: {
