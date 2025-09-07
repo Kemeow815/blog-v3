@@ -1,3 +1,4 @@
+import process from 'node:process'
 import { createError, defineEventHandler } from 'h3'
 
 const UMAMI_CONFIG = {
@@ -113,7 +114,7 @@ async function fetchStatsForDefinedRange(token: string, rangeDef: TimeRangeDefin
 	return await response.json()
 }
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (_event) => {
 	try {
 		const token = await getUmamiToken()
 

@@ -77,51 +77,62 @@ onUnmounted(() => ob?.disconnect())
 </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+/* 窄屏时把容器整体往上提 2rem，可自行改数值 */
+@media (max-width: 768px) {
+	.floating-buttons {
+		bottom: 4rem;   /* 原来是 6rem */
+	}
+}
+
 /* ---------- 容器 ---------- */
 .floating-buttons {
-  position: fixed;
-  right: max(1rem, 2vw);
-  bottom: 6rem;
-  z-index: 90;
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease;
-  pointer-events: none;
+	display: grid;
+	grid-template-rows: 0fr;
+	position: fixed;
+	right: max(1rem, 2vw);
+	bottom: 6rem;
+	transition: grid-template-rows 0.3s ease;
+	pointer-events: none;
+	z-index: 90;
 }
+
 .floating-buttons.open {
-  grid-template-rows: 1fr;
-  pointer-events: auto;
+	grid-template-rows: 1fr;
+	pointer-events: auto;
 }
+
 .inner {
-  overflow: hidden;
-  background: var(--c-bg-soft, #ffffffcc);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--c-border-light, #e5e5e5);
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 12px #00000022;
+	overflow: hidden;
+	border: 1px solid var(--c-border-light, #E5E5E5);
+	border-radius: 0.5rem;
+	box-shadow: 0 4px 12px #0002;
+	background: var(--c-bg-soft, #FFFC);
+	backdrop-filter: blur(8px);
 }
 
 /* ---------- 按钮 ---------- */
 .floating-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  color: var(--c-text, #333);
-  cursor: pointer;
-  transition: background-color 0.25s, color 0.25s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	padding: 0;
+	border: none;
+	background: transparent;
+	color: var(--c-text, #333);
+	transition: background-color 0.25s, color 0.25s;
+	cursor: pointer;
 }
+
 .floating-btn:hover {
-  background: var(--c-primary, #0076ff);
-  color: #fff;
+	background: var(--c-primary, #0076FF);
+	color: #FFF;
 }
+
 .floating-btn svg {
-  width: 24px;
-  height: 24px;
+	width: 24px;
+	height: 24px;
 }
 </style>

@@ -62,35 +62,35 @@ watch(collectionType, () => {
 
 <style scoped lang="scss">
 .game-page {
-  padding: 1rem;
+	padding: 1rem;
 }
 
 .toolbar {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  align-items: center;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 1rem;
 }
 
 .count-text {
-  margin-left: auto;
-  font-size: 0.9rem;
-  color: var(--c-text-light);
+	margin-left: auto;
+	font-size: 0.9rem;
+	color: var(--c-text-light);
 }
 
 .game-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1rem;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+	gap: 1rem;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease;
+	transition: opacity 0.3s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+	opacity: 0;
 }
 </style>

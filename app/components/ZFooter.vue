@@ -92,7 +92,7 @@ function refreshFeeds() {
 	<!-- <p v-html="appConfig.footer.copyright" /> -->
 	<div class="github-badge">
 		<span class="badge-subject">雾备</span>
-		<a style="color:#fff" href="https://icp.wudu.ltd/id.php?keyword=20250530" rel="external" target="_blank">
+		<a style="color: #FFF;" href="https://icp.wudu.ltd/id.php?keyword=20250530" rel="external" target="_blank">
 			<span class="badge-value bg-cai">20250530号</span>
 		</a>
 	</div>
@@ -117,11 +117,11 @@ function refreshFeeds() {
 		padding-block: 3rem;
 
 		h3 {
-			margin: 0.5em;
-			font: inherit;
 			display: flex;
 			align-items: center;
 			gap: 0.5em;
+			margin: 0.5em;
+			font: inherit;
 		}
 
 		a {
@@ -142,13 +142,13 @@ function refreshFeeds() {
 	}
 
 	.refresh-button {
-		background: none;
-		border: none;
-		cursor: pointer;
 		padding: 0.2em;
+		border: none;
 		border-radius: 0.3em;
+		background: none;
 		color: var(--c-text-2);
 		transition: background-color 0.2s, color 0.1s;
+		cursor: pointer;
 
 		&:hover {
 			background-color: var(--c-bg-soft);
