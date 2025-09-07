@@ -155,17 +155,18 @@ onMounted(fetchTotalStats)
 <style lang="scss" scoped>
 /* 基础样式（保持原有） */
 .contact-links {
-  display: flex;
-  gap: 16px; /* 保持原有间距 */
-  flex-wrap: wrap; /* 允许换行 */
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 12px;
 }
 
-/* 手机端适配 */
+/* 手机端（≤768px）维持 3 列自动换行，无需再写媒体查询 */
+
+/* 如果只想在手机端生效，可再包一层 @media，也可以省略，因为 grid 已经自动换行 */
 @media (max-width: 768px) {
-  .contact-links a {
-    flex: 0 0 calc(33.33% - 10px); /* 3列布局，减去gap补偿 */
-    max-width: calc(33.33% - 10px);
-  }
+	.contact-links {
+		gap: 10px;
+	}
 }
 
 .about-page {
@@ -207,9 +208,9 @@ onMounted(fetchTotalStats)
 	padding: 2rem 1.5rem;
 	border-radius: 1.5rem;
 	text-align: center;
-	transition: none;
-	background-color: var(--c-bg-soft);
 	border: 1px solid var(--c-border);
+	background-color: var(--c-bg-soft);
+	transition: none;
 
 	&:hover {
 		transform: none;

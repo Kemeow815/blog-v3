@@ -142,156 +142,167 @@ onUnmounted(() => {
 </script>
 
 <template>
-<h3 class="widget-title">
-	最新评论
-</h3>
-<div class="widget-card comments-container">
-	<Transition name="fade" mode="out-in">
-		<div v-if="loading" class="loading">
-			<div class="loading-spinner" />
-			<p>加载中...</p>
-		</div>
-		<div v-else-if="error" class="error">
-			<Icon name="line-md:alert" class="error-icon" />
-			<span>评论加载失败</span>
-		</div>
-		<ul v-else class="comments-list">
-			<li
-				v-for="comment in comments"
-				:key="comment.id"
-				class="comment-item"
-				@click="navigateTo(`${comment.url}#${comment.id}`)"
-			>
-				<div class="comment-meta">
-					<div class="author-info">
-						<img :src="comment.avatar" :alt="comment.author" class="avatar">
-						<span class="author">{{ comment.author }}</span>
-						<Icon v-if="comment.isAdmin" name="ph:seal-check-fill" class="admin-badge" />
+<ZWidget>
+	<template #title>
+		<span class="title">最新评论</span>
+		<Icon name="ph:chat-circle-text-bold" />
+	</template>
+
+	<div class="comment-wrap">
+		<Transition name="fade" mode="out-in">
+			<!-- 加载中 -->
+			<div v-if="loading" class="state-box">
+				<div class="spinner" />
+				<p>加载中…</p>
+			</div>
+
+			<!-- 出错 -->
+			<div v-else-if="error" class="state-box">
+				<Icon name="line-md:alert" class="error-icon" />
+				<span>评论加载失败</span>
+			</div>
+
+			<!-- 列表 -->
+			<ul v-else class="comment-list">
+				<li
+					v-for="c in comments"
+					:key="c.id"
+					class="comment-item"
+					@click="navigateTo(`${c.url}#${c.id}`)"
+				>
+					<div class="meta">
+						<div class="left">
+							<img :src="c.avatar" :alt="c.author" class="avatar">
+							<span class="nick">{{ c.author }}</span>
+							<Icon
+								v-if="c.isAdmin"
+								name="ph:seal-check-fill"
+								class="badge"
+							/>
+						</div>
+						<time class="date">{{ c.date }}</time>
 					</div>
-					<time class="date">{{ comment.date }}</time>
-				</div>
-				<p class="comment-content" title="点击查看完整评论" v-html="comment.content" />
-			</li>
-		</ul>
-	</Transition>
-</div>
+					<p class="content" v-html="c.content" />
+				</li>
+			</ul>
+		</Transition>
+	</div>
+</ZWidget>
 </template>
 
 <style lang="scss" scoped>
-.comments-container {
-    min-height: 343px;
-    position: relative;
+/* 统一用你已有的变量，无需额外定义 */
+.comment-wrap {
+  min-height: 280px;          /* 与目录保持一致 */
+  padding: 0.6rem 0;
 }
 
-%center-flex {
+.state-box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	gap: 8px;
+	height: 220px;
+	color: var(--c-text-2);
+	font-size: 0.9em;
+
+	.spinner {
+		width: 32px;
+		height: 32px;
+		border: 3px solid var(--c-bg-3);
+		border-top-color: var(--c-primary);
+		border-radius: 50%;
+		animation: spin 0.8s linear infinite;
+	}
+
+	.error-icon {
+		font-size: 2rem;
+		color: var(--c-red);
+	}
+}
+
+.comment-list {
+	margin: 0;
+	list-style: none;
+	padding: 0;
+} 
+
+.comment-item {
+	padding: 0.75rem 0.6rem;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background 0.2s;
+
+	& + .comment-item {
+		margin-top: 4px;
+	}
+
+  &:hover {
+    background: var(--c-bg-soft);
+  }
+
+  .meta {
     display: flex;
     align-items: center;
-}
+    justify-content: space-between;
+    font-size: 0.82em;
+    margin-bottom: 6px;
+  }
 
-.loading, .error {
-    @extend %center-flex;
-    position: absolute;
-    inset: 0;
-    flex-direction: column;
-    justify-content: center;
-    gap: 8px;
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .nick {
+    font-weight: 500;
+    color: var(--c-text-1);
+  }
+
+  .badge {
+    color: var(--c-primary);
+    font-size: 1em;
+  }
+
+  .date {
+    color: var(--c-text-3);
+    white-space: nowrap;
+  }
+
+  .content {
+    margin: 0;
+    font-size: 0.9em;
     color: var(--c-text-2);
-    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
-    .loading-spinner {
-        margin: 0 auto 0.5rem;
-        width: 40px;
-        height: 40px;
-        border: 3px solid var(--c-bg-3);
-        border-top: 3px solid var(--c-primary);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
+    /* 表情大小统一 */
+    :deep(img.tk-owo-emotion) {
+      width: 16px;
+      height: 16px;
+      vertical-align: text-bottom;
+      margin: 0 2px;
     }
-
-    .error-icon {
-        font-size: 3rem;
-    }
+  }
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  to { transform: rotate(360deg); }
 }
 
-.error {
-    @extend %center-flex;
-    position: absolute;
-    inset: 0;
-    flex-direction: column;
-    justify-content: center;
-    gap: 8px;
-    color: var(--c-text-2);
-}
-
-.comment-item {
-    border-bottom: 1px solid var(--c-border);
-    cursor: pointer;
-
-    &:last-child { border-bottom: none; }
-}
-
-.comment-content {
-    padding: 6px 10px;
-    font-size: 0.9em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    background-color: var(--c-bg-1);
-    border-radius: 4px;
-    color: var(--c-text-2);
-    transition: color 0.2s;
-
-    &:hover {
-        color: var(--c-text-1);
-    }
-
-    :deep(img.tk-owo-emotion) {
-        margin: 0 5px;
-        width: 16px;
-        height: 16px;
-        vertical-align: text-bottom;
-    }
-}
-
-.comment-meta {
-    @extend %center-flex;
-    justify-content: space-between;
-    font-size: 0.8em;
-    color: var(--c-text-2);
-}
-
-.author-info {
-    @extend %center-flex;
-    gap: 6px;
-}
-
-.avatar {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.author {
-    font-weight: 500;
-    color: var(--c-text-1);
-}
-
-.admin-badge {
-    color: var(--c-primary);
-    font-size: 1.1em;
-}
-
-.date { color: var(--c-text-3); }
-
+/* 复用目录的过渡 */
 .fade-enter-active,
-.fade-leave-active { transition: 0.3s ease; }
-
+.fade-leave-active { transition: opacity 0.25s; }
 .fade-enter-from,
 .fade-leave-to { opacity: 0; }
 </style>
