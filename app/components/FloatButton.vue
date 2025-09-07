@@ -91,7 +91,7 @@ onUnmounted(() => ob?.disconnect())
 	grid-template-rows: 0fr;
 	position: fixed;
 	right: max(1rem, 2vw);
-	bottom: 4.5rem;
+	bottom: 7.5rem;
 	transition: grid-template-rows 0.3s ease;
 	pointer-events: none;
 	z-index: 90;
