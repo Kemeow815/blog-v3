@@ -23,7 +23,7 @@ interface TwikooResponse {
 }
 
 // API 配置常量
-const API_URL = 'https://kemiao-twikoo.050815.xyz/'
+const API_URL = 'https://kemiao-twikoo.050815.xyz'
 const ADMIN_EMAIL_MD5 = 'b624bd863eaf16b3eef5efc9ce6086e7'
 
 // 状态管理
@@ -128,23 +128,12 @@ async function fetchComments() {
 	}
 }
 
-// 抽离启动/销毁逻辑，避免内联匿名函数被多次 transform
-let timer: ReturnType<typeof setInterval> | null = null
-
-function startPolling() {
+onMounted(() => {
 	fetchComments()
-	timer = setInterval(fetchComments, 10 * 60 * 1000)
-}
-
-function stopPolling() {
-	if (timer) {
-		clearInterval(timer)
-		timer = null
-	}
-}
-
-onMounted(() => startPolling())
-onUnmounted(() => stopPolling())
+	// 每10分钟自动刷新一次
+	const timer = setInterval(fetchComments, 10 * 60 * 1000)
+	onUnmounted(() => clearInterval(timer))
+})
 </script>
 
 <template>

@@ -153,6 +153,21 @@ onMounted(fetchTotalStats)
 </template>
 
 <style lang="scss" scoped>
+/* 基础样式（保持原有） */
+.contact-links {
+  display: flex;
+  gap: 16px; /* 保持原有间距 */
+  flex-wrap: wrap; /* 允许换行 */
+}
+
+/* 手机端适配 */
+@media (max-width: 768px) {
+  .contact-links a {
+    flex: 0 0 calc(33.33% - 10px); /* 3列布局，减去gap补偿 */
+    max-width: calc(33.33% - 10px);
+  }
+}
+
 .about-page {
 	max-width: 1000px;
 	margin: 0 auto;
