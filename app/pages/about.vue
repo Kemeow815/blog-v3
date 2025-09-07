@@ -153,22 +153,6 @@ onMounted(fetchTotalStats)
 </template>
 
 <style lang="scss" scoped>
-/* 基础样式（保持原有） */
-.contact-links {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 12px;
-}
-
-/* 手机端（≤768px）维持 3 列自动换行，无需再写媒体查询 */
-
-/* 如果只想在手机端生效，可再包一层 @media，也可以省略，因为 grid 已经自动换行 */
-@media (max-width: 768px) {
-	.contact-links {
-		gap: 10px;
-	}
-}
-
 .about-page {
 	max-width: 1000px;
 	margin: 0 auto;
@@ -381,8 +365,17 @@ onMounted(fetchTotalStats)
 	color: var(--c-text-1);
 
 	.contact-links {
-		display: flex;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		justify-items: center;
 		gap: 1.5rem;
+
+	@media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr); // 电脑端也3列，自动换行
+    max-width: 400px; // 控制宽度，避免图标过大
+    margin: 0 auto;
+  }
+}
 
 		a {
 			font-size: 2.5rem;
