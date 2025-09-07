@@ -128,11 +128,16 @@ async function fetchComments() {
 	}
 }
 
+let timer: number | undefined
+
 onMounted(() => {
 	fetchComments()
-	// 每10分钟自动刷新一次
-	const timer = setInterval(fetchComments, 10 * 60 * 1000)
-	onUnmounted(() => clearInterval(timer))
+	timer = window.setInterval(fetchComments, 10 * 60 * 1000)
+})
+
+onUnmounted(() => {
+	if (timer)
+		clearInterval(timer)
 })
 </script>
 
