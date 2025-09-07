@@ -79,11 +79,11 @@ onUnmounted(() => ob?.disconnect())
 
 <style scoped lang="scss">
 /* 窄屏时把容器整体往上提 2rem，可自行改数值 */
-@media (max-width: 768px) {
-	.floating-buttons {
-		bottom: 4rem;   /* 原来是 6rem */
-	}
-}
+// @media (max-width: 768px) {
+// 	.floating-buttons {
+// 		bottom: 4rem;   /* 原来是 6rem */
+// 	}
+// }
 
 /* ---------- 容器 ---------- */
 .floating-buttons {
@@ -91,7 +91,7 @@ onUnmounted(() => ob?.disconnect())
 	grid-template-rows: 0fr;
 	position: fixed;
 	right: max(1rem, 2vw);
-	bottom: 6rem;
+	bottom: 4.5rem;
 	transition: grid-template-rows 0.3s ease;
 	pointer-events: none;
 	z-index: 90;
