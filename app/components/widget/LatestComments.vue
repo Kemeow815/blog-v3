@@ -193,19 +193,19 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 /* 统一用你已有的变量，无需额外定义 */
 .comment-wrap {
-  min-height: 280px;          /* 与目录保持一致 */
-  padding: 0.6rem 0;
+	min-height: 280px;          /* 与目录保持一致 */
+	padding: 0.6rem 0;
 }
 
 .state-box {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	flex-direction: column;
 	gap: 8px;
 	height: 220px;
-	color: var(--c-text-2);
 	font-size: 0.9em;
+	color: var(--c-text-2);
 
 	.spinner {
 		width: 32px;
@@ -224,85 +224,86 @@ onUnmounted(() => {
 
 .comment-list {
 	margin: 0;
-	list-style: none;
 	padding: 0;
-} 
+	list-style: none;
+}
 
 .comment-item {
 	padding: 0.75rem 0.6rem;
 	border-radius: 8px;
-	cursor: pointer;
 	transition: background 0.2s;
+	cursor: pointer;
 
 	& + .comment-item {
 		margin-top: 4px;
 	}
 
-  &:hover {
-    background: var(--c-bg-soft);
-  }
+	&:hover {
+		background: var(--c-bg-soft);
+	}
 
-  .meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.82em;
-    margin-bottom: 6px;
-  }
+	.meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 6px;
+		font-size: 0.82em;
+	}
 
-  .left {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+	.left {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
 
-  .avatar {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
+	.avatar {
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		object-fit: cover;
+	}
 
-  .nick {
-    font-weight: 500;
-    color: var(--c-text-1);
-  }
+	.nick {
+		font-weight: 500;
+		color: var(--c-text-1);
+	}
 
-  .badge {
-    color: var(--c-primary);
-    font-size: 1em;
-  }
+	.badge {
+		font-size: 1em;
+		color: var(--c-primary);
+	}
 
-  .date {
-    color: var(--c-text-3);
-    white-space: nowrap;
-  }
+	.date {
+		white-space: nowrap;
+		color: var(--c-text-3);
+	}
 
-  .content {
-    margin: 0;
-    font-size: 0.9em;
-    color: var(--c-text-2);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+	.content {
+		overflow: hidden;
+		margin: 0;
+		font-size: 0.9em;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		color: var(--c-text-2);
 
-    /* 表情大小统一 */
-    :deep(img.tk-owo-emotion) {
-      width: 16px;
-      height: 16px;
-      vertical-align: text-bottom;
-      margin: 0 2px;
-    }
-  }
+		/* 表情大小统一 */
+		:deep(img.tk-owo-emotion) {
+			width: 16px;
+			height: 16px;
+			margin: 0 2px;
+			vertical-align: text-bottom;
+		}
+	}
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+	to { transform: rotate(360deg); }
 }
 
 /* 复用目录的过渡 */
 .fade-enter-active,
 .fade-leave-active { transition: opacity 0.25s; }
+
 .fade-enter-from,
 .fade-leave-to { opacity: 0; }
 </style>
