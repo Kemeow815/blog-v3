@@ -5,9 +5,9 @@ export { zhCN as dateLocale } from 'date-fns/locale/zh-CN'
 
 const basicConfig = {
 	title: '喵洛阁',
-	subtitle: '愿你看清一切真相后，依旧热爱你的家人和朋友。',
+	subtitle: '克喵的小栈',
 	// 长 description 利好于 SEO
-	description: '喵的小站,克喵在博客里记录生活日记、资源分享和踩坑教程。。',
+	description: '愿你看清一切真相后，依旧热爱你的家人和朋友。',
 	keywords: '博客, 个人网站, 克喵',
 	author: {
 		name: '克喵爱吃卤面',
