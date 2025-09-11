@@ -2,7 +2,6 @@
 <script setup lang="ts">
 import type { MomentItem } from '~/moments'
 import moments from '~/moments'
-import PhotoPreviewModal from '~/components/PhotoPreviewModal.vue'
 
 const defaultAuthor = {
   name: 'ATao',
@@ -10,7 +9,7 @@ const defaultAuthor = {
   badges: ['摸鱼达人']
 }
 
-/* 1. 数据 */
+/* 1. 普通变量，不用深层 computed */
 const sortedMoments = [...moments]
   .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
   .map(m => ({ ...m, author: m.author || defaultAuthor }))
@@ -30,7 +29,7 @@ const formatTime = (d: string) =>
     year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false
   }).replace(/\//g, '-').replace(',', '')
 
-/* 4. 预览状态 + 核心函数 */
+/* 4. 图片预览状态 + 开关（第一步） */
 const showPreview = ref(false)
 const currentPhoto = ref('')
 const currentPhotoIndex = ref(0)
@@ -45,20 +44,6 @@ const openPhotoPreview = (photo: string, images: string[], index: number) => {
 
 const closePhotoPreview = () => {
   showPreview.value = false
-}
-
-const nextPhoto = () => {
-  if (currentMomentImages.value.length > 1) {
-    currentPhotoIndex.value = (currentPhotoIndex.value + 1) % currentMomentImages.value.length
-    currentPhoto.value = currentMomentImages.value[currentPhotoIndex.value]
-  }
-}
-
-const prevPhoto = () => {
-  if (currentMomentImages.value.length > 1) {
-    currentPhotoIndex.value = (currentPhotoIndex.value - 1 + currentMomentImages.value.length) % currentMomentImages.value.length
-    currentPhoto.value = currentMomentImages.value[currentPhotoIndex.value]
-  }
 }
 </script>
 
@@ -89,7 +74,7 @@ const prevPhoto = () => {
           <div class="moment-content">
             <p class="moment-text">{{ m.content }}</p>
 
-            <!-- 图片 -->
+            <!-- 图片（已绑定点击事件，但无模态框） -->
             <div v-if="m.images?.length" class="moment-images" :class="{ 'single-image': m.images.length === 1, 'grid-images': m.images.length > 1 }">
               <img
                 v-for="img in m.images"
@@ -114,20 +99,12 @@ const prevPhoto = () => {
     </div>
   </div>
 
-  <!-- 预览模态框（独立组件） -->
-  <PhotoPreviewModal
-    :show="showPreview"
-    :photo="currentPhoto"
-    :index="currentPhotoIndex"
-    :total="currentMomentImages.length"
-    @close="closePhotoPreview"
-    @next="nextPhoto"
-    @prev="prevPhoto"
-  />
+  <!-- 5. 占位：预览模态框（第二步再加） -->
+  <!-- <div v-if="showPreview">...</div> -->
 </template>
 
 <style scoped>
-/* ------- 基础 ------- */
+/* 样式与上一版相同，已精简 */
 .moments-page { min-height: 100vh; padding: 2rem 0 }
 .container { max-width: 700px; margin: 0 auto; padding: 0 1rem }
 .moments-grid { display: flex; flex-direction: column; gap: 1.5rem }
