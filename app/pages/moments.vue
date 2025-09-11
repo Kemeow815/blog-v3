@@ -1,109 +1,129 @@
-<script setup lang="ts">
+<script lang="ts">
 import type { MomentItem } from '~/moments'
 import moments from '~/moments'
 
-// 默认作者信息
-const defaultAuthor = {
-	name: 'ATao',
-	avatar: 'https://cdn.atao.cyou/Web/Avatar.png',
-	badges: ['摸鱼达人'],
-}
-
-// 按创建时间倒序排序并处理默认作者
-const sortedMoments = computed(() => {
-	return [...moments].sort((a, b) =>
-		new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-	).map(moment => ({
-		...moment,
-		author: moment.author || defaultAuthor,
-	}))
-})
-
-// 分页设置
-const currentPage = ref(1)
-const pageSize = 5
-const paginatedMoments = computed(() => {
-	const start = (currentPage.value - 1) * pageSize
-	return sortedMoments.value.slice(start, start + pageSize)
-})
-const totalPages = computed(() => Math.ceil(sortedMoments.value.length / pageSize))
-
-// 格式化时间显示为具体时间点（处理UTC时间）
-function formatTime(dateString: string) {
-	// 解析UTC时间字符串
-	const date = new Date(dateString)
-
-	// 转换为本地时间字符串（YYYY-MM-DD HH:MM格式）
-	const localDateString = date.toLocaleString('zh-CN', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-		hour: '2-digit',
-		minute: '2-digit',
-		hour12: false,
-		timeZone: 'Asia/Shanghai',
-	})
-
-	// 格式化为 YYYY-MM-DD HH:MM
-	return localDateString.replace(/\//g, '-').replace(',', '')
-}
-
-// 图片预览状态
-const showPreview = ref(false)
-const currentPhoto = ref('')
-const currentPhotoIndex = ref(0)
-const currentMomentImages = ref<string[]>([])
-
-// 打开照片预览
-function openPhotoPreview(photo: string, images: string[], index: number) {
-	currentPhoto.value = photo
-	currentPhotoIndex.value = index
-	currentMomentImages.value = images
-	showPreview.value = true
-}
-
-// 关闭照片预览
-function closePhotoPreview() {
-	showPreview.value = false
-}
-
-// 切换到下一张照片
-function nextPhoto() {
-	if (currentMomentImages.value.length > 1) {
-		currentPhotoIndex.value = (currentPhotoIndex.value + 1) % currentMomentImages.value.length
-		currentPhoto.value = currentMomentImages.value[currentPhotoIndex.value]
+interface Data {
+	defaultAuthor: {
+		name: string
+		avatar: string
+		badges: string[]
 	}
+	currentPage: number
+	pageSize: number
+	showPreview: boolean
+	currentPhoto: string
+	currentPhotoIndex: number
+	currentMomentImages: string[]
+	keydownHandler: ((e: KeyboardEvent) => void) | null
 }
 
-// 切换到上一张照片
-function prevPhoto() {
-	if (currentMomentImages.value.length > 1) {
-		currentPhotoIndex.value = (currentPhotoIndex.value - 1 + currentMomentImages.value.length) % currentMomentImages.value.length
-		currentPhoto.value = currentMomentImages.value[currentPhotoIndex.value]
-	}
-}
+export default {
+	name: 'MomentsPage',
 
-// 键盘事件监听
-onMounted(() => {
-	const handleKeydown = (e: KeyboardEvent) => {
-		if (showPreview.value) {
+	data(): Data {
+		return {
+			defaultAuthor: {
+				name: 'ATao',
+				avatar: 'https://cdn.atao.cyou/Web/Avatar.png',
+				badges: ['摸鱼达人'],
+			},
+			currentPage: 1,
+			pageSize: 5,
+			showPreview: false,
+			currentPhoto: '',
+			currentPhotoIndex: 0,
+			currentMomentImages: [],
+			keydownHandler: null,
+		}
+	},
+
+	computed: {
+		sortedMoments(): MomentItem[] {
+			return [...moments]
+				.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+				.map(m => ({ ...m, author: m.author || this.defaultAuthor }))
+		},
+
+		paginatedMoments(): MomentItem[] {
+			const start = (this.currentPage - 1) * this.pageSize
+			return this.sortedMoments.slice(start, start + this.pageSize)
+		},
+
+		totalPages(): number {
+			return Math.ceil(this.sortedMoments.length / this.pageSize)
+		},
+	},
+
+	mounted() {
+		this.keydownHandler = (e: KeyboardEvent) => {
+			if (!this.showPreview)
+				return
 			if (e.key === 'Escape') {
-				closePhotoPreview()
+				this.closePhotoPreview()
 			}
 			else if (e.key === 'ArrowRight') {
-				nextPhoto()
+				this.nextPhoto()
 			}
 			else if (e.key === 'ArrowLeft') {
-				prevPhoto()
+				this.prevPhoto()
 			}
 		}
-	}
+		window.addEventListener('keydown', this.keydownHandler)
+	},
 
-	window.addEventListener('keydown', handleKeydown)
-	onUnmounted(() => {
-		window.removeEventListener('keydown', handleKeydown)
-	})
-})
+	beforeUnmount() {
+		if (this.keydownHandler) {
+			window.removeEventListener('keydown', this.keydownHandler)
+			this.keydownHandler = null
+		}
+	},
+
+	methods: {
+		formatTime(dateString: string): string {
+			const date = new Date(dateString)
+			return date
+				.toLocaleString('zh-CN', {
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+					hour: '2-digit',
+					minute: '2-digit',
+					hour12: false,
+					timeZone: 'Asia/Shanghai',
+				})
+				.replace(/\//g, '-')
+				.replace(',', '')
+		},
+
+		openPhotoPreview(photo: string, images: string[], index: number) {
+			this.currentPhoto = photo
+			this.currentPhotoIndex = index
+			this.currentMomentImages = images
+			this.showPreview = true
+		},
+
+		closePhotoPreview() {
+			this.showPreview = false
+		},
+
+		nextPhoto() {
+			if (this.currentMomentImages.length > 1) {
+				this.currentPhotoIndex
+					= (this.currentPhotoIndex + 1) % this.currentMomentImages.length
+				this.currentPhoto = this.currentMomentImages[this.currentPhotoIndex]
+			}
+		},
+
+		prevPhoto() {
+			if (this.currentMomentImages.length > 1) {
+				this.currentPhotoIndex
+					= (this.currentPhotoIndex - 1 + this.currentMomentImages.length)
+						% this.currentMomentImages.length
+				this.currentPhoto = this.currentMomentImages[this.currentPhotoIndex]
+			}
+		},
+	},
+}
 </script>
 
 <template>
