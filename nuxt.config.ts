@@ -73,10 +73,10 @@ export default defineNuxtConfig({
 		'/favicon.ico': { redirect: { to: blogConfig.favicon } },
 		'/kemiao.opml': { prerender: true, headers: { 'Content-Type': 'application/xml' } },
 
-		// ✅ 只在非本地生成时预渲染 /api/umami
-		// ...(!isLocalGenerate && {
-		// 	'/api/umami': { prerender: true, headers: { 'Content-Type': 'application/json' } },
-		// }),
+		✅ 只在非本地生成时预渲染 /api/umami
+		 ...(!isLocalGenerate && {
+		 	'/api/umami': { prerender: true, headers: { 'Content-Type': 'application/json' } },
+		 }),
 	},
 
 	runtimeConfig: {
