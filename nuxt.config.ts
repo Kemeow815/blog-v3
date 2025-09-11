@@ -41,6 +41,11 @@ export default defineNuxtConfig({
 		},
 	},
 
+ experimental:
+   {
+      oxc: false,
+   },  
+
 	compatibilityDate: '2024-08-03',
 
 	components: [
