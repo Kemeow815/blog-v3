@@ -2,6 +2,7 @@
 <script setup lang="ts">
 import type { MomentItem } from '~/moments'
 import moments from '~/moments'
+import PhotoPreviewModal from '~/components/PhotoPreviewModal.vue'
 
 const defaultAuthor = {
   name: 'ATao',
@@ -59,18 +60,6 @@ const prevPhoto = () => {
     currentPhoto.value = currentMomentImages.value[currentPhotoIndex.value]
   }
 }
-
-/* 5. 键盘事件 */
-onMounted(() => {
-  const handleKeydown = (e: KeyboardEvent) => {
-    if (!showPreview.value) return
-    if (e.key === 'Escape') closePhotoPreview()
-    else if (e.key === 'ArrowRight') nextPhoto()
-    else if (e.key === 'ArrowLeft') prevPhoto()
-  }
-  window.addEventListener('keydown', handleKeydown)
-  onUnmounted(() => window.removeEventListener('keydown', handleKeydown))
-})
 </script>
 
 <template>
@@ -125,36 +114,16 @@ onMounted(() => {
     </div>
   </div>
 
-  <!-- 6. 预览模态框 -->
-  <div v-if="showPreview" class="photo-preview-modal" @click="closePhotoPreview">
-    <div class="preview-content" @click.stop>
-      <button class="close-btn" @click="closePhotoPreview">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-
-      <div class="preview-image-container">
-        <button v-if="currentMomentImages.length > 1" class="nav-btn prev-btn" @click="prevPhoto">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="15 18 9 12 15 6"/>
-          </svg>
-        </button>
-
-        <img :src="currentPhoto" class="preview-image" alt="预览图片">
-
-        <button v-if="currentMomentImages.length > 1" class="nav-btn next-btn" @click="nextPhoto">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </button>
-      </div>
-
-      <div v-if="currentMomentImages.length > 1" class="photo-counter">
-        {{ currentPhotoIndex + 1 }} / {{ currentMomentImages.length }}
-      </div>
-    </div>
-  </div>
+  <!-- 预览模态框（独立组件） -->
+  <PhotoPreviewModal
+    :show="showPreview"
+    :photo="currentPhoto"
+    :index="currentPhotoIndex"
+    :total="currentMomentImages.length"
+    @close="closePhotoPreview"
+    @next="nextPhoto"
+    @prev="prevPhoto"
+  />
 </template>
 
 <style scoped>
@@ -180,26 +149,4 @@ onMounted(() => {
 .pagination-btn { padding: .5rem 1rem; border: 1px solid #007aff; background: transparent; color: #007aff; border-radius: 8px; font-weight: 500; cursor: pointer }
 .pagination-btn:disabled { opacity: .5; cursor: not-allowed }
 .page-info { color: #86868b; font-size: .875rem }
-
-/* ------- 预览模态框 ------- */
-.photo-preview-modal { position: fixed; inset: 0; background: rgba(0,0,0,.9); display: flex; align-items: center; justify-content: center; z-index: 1000 }
-.preview-content { position: relative; max-width: 90vw; max-height: 90vh; background: var(--ld-bg-card, #fff); border-radius: 1rem; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,.3) }
-.close-btn { position: absolute; top: .75rem; right: .75rem; background: rgba(255,255,255,.12); border: none; border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer; backdrop-filter: blur(20px); transition: all .2s ease }
-.close-btn:hover { background: rgba(255,255,255,.2); transform: scale(1.1) }
-.preview-image-container { max-width: 80vw; max-height: 70vh; display: flex; align-items: center; justify-content: center }
-.preview-image { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain }
-.nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.12); border: none; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; color: #fff; cursor: pointer; backdrop-filter: blur(20px); opacity: .8; transition: all .2s ease }
-.nav-btn:hover { background: rgba(255,255,255,.2); opacity: 1; transform: translateY(-50%) scale(1.1) }
-.prev-btn { left: 20px }
-.next-btn { right: 20px }
-.photo-counter { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,.95); padding: .75rem 2rem; border-radius: 2rem; color: #000; font-size: 1.2rem; font-weight: 700; box-shadow: 0 4px 20px rgba(0,0,0,.4); border: 2px solid rgba(255,255,255,.8) }
-
-/* 移动端 */
-@media (max-width: 768px) {
-  .close-btn { top: .5rem; right: .5rem; width: 2.5rem; height: 2.5rem }
-  .nav-btn { width: 50px; height: 50px }
-  .prev-btn { left: 10px }
-  .next-btn { right: 10px }
-  .photo-counter { font-size: 1rem; padding: .5rem 1rem }
-}
 </style>
