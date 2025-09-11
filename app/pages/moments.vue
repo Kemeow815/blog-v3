@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { MomentItem } from '~/moments'
 import moments from '~/moments'
 
 // 默认作者信息
