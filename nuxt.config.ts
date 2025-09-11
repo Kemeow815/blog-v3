@@ -39,12 +39,7 @@ export default defineNuxtConfig({
 		rootAttrs: {
 			id: 'z-root',
 		},
-	},
-
- experimental:
-   {
-      oxc: false,
-   },  
+	},  
 
 	compatibilityDate: '2024-08-03',
 
