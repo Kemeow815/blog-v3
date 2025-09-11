@@ -4,30 +4,36 @@ import type { MomentItem } from '~/moments'
 import moments from '~/moments'
 
 const defaultAuthor = {
-  name: 'ATao',
-  avatar: 'https://cdn.atao.cyou/Web/Avatar.png',
-  badges: ['摸鱼达人']
+	name: 'ATao',
+	avatar: 'https://cdn.atao.cyou/Web/Avatar.png',
+	badges: ['摸鱼达人'],
 }
 
 /* 1. 普通变量，不用深层 computed */
 const sortedMoments = [...moments]
-  .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-  .map(m => ({ ...m, author: m.author || defaultAuthor }))
+	.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+	.map(m => ({ ...m, author: m.author || defaultAuthor }))
 
 /* 2. 分页 */
 const currentPage = ref(1)
 const pageSize = 5
 const paginatedMoments = computed(() => {
-  const start = (currentPage.value - 1) * pageSize
-  return sortedMoments.slice(start, start + pageSize)
+	const start = (currentPage.value - 1) * pageSize
+	return sortedMoments.slice(start, start + pageSize)
 })
 const totalPages = Math.ceil(sortedMoments.length / pageSize)
 
 /* 3. 时间格式化 */
-const formatTime = (d: string) =>
-  new Date(d).toLocaleString('zh-CN', {
-    year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false
-  }).replace(/\//g, '-').replace(',', '')
+function formatTime(d: string) {
+	return new Date(d).toLocaleString('zh-CN', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+		hour12: false,
+	}).replace(/\//g, '-').replace(',', '')
+}
 
 /* 4. 图片预览状态 + 开关（第一步） */
 const showPreview = ref(false)
@@ -35,72 +41,80 @@ const currentPhoto = ref('')
 const currentPhotoIndex = ref(0)
 const currentMomentImages = ref<string[]>([])
 
-const openPhotoPreview = (photo: string, images: string[], index: number) => {
-  currentPhoto.value = photo
-  currentPhotoIndex.value = index
-  currentMomentImages.value = images
-  showPreview.value = true
+function openPhotoPreview(photo: string, images: string[], index: number) {
+	currentPhoto.value = photo
+	currentPhotoIndex.value = index
+	currentMomentImages.value = images
+	showPreview.value = true
 }
 
-const closePhotoPreview = () => {
-  showPreview.value = false
+function closePhotoPreview() {
+	showPreview.value = false
 }
 </script>
 
 <template>
-  <div class="moments-page">
-    <div class="container">
-      <div class="moments-grid">
-        <article v-for="m in paginatedMoments" :key="m.id" class="moment-card">
-          <!-- 作者信息 -->
-          <div class="moment-header">
-            <img :src="m.author.avatar" :alt="m.author.name" width="44" height="44" class="author-avatar">
-            <div class="author-info">
-              <div class="author-main">
-                <h3 class="author-name">{{ m.author.name }}</h3>
-                <div v-if="m.author.badges?.length" class="badges-container">
-                  <span v-for="b in m.author.badges" :key="b" class="badge">{{ b }}</span>
-                </div>
-              </div>
-              <div class="meta-info">
-                <time class="moment-time">{{ formatTime(m.createdAt) }}</time>
-                <span v-if="m.location" class="location-separator">·</span>
-                <span v-if="m.location" class="location">{{ m.location }}</span>
-              </div>
-            </div>
-          </div>
+<div class="moments-page">
+	<div class="container">
+		<div class="moments-grid">
+			<article v-for="m in paginatedMoments" :key="m.id" class="moment-card">
+				<!-- 作者信息 -->
+				<div class="moment-header">
+					<img :src="m.author.avatar" :alt="m.author.name" width="44" height="44" class="author-avatar">
+					<div class="author-info">
+						<div class="author-main">
+							<h3 class="author-name">
+								{{ m.author.name }}
+							</h3>
+							<div v-if="m.author.badges?.length" class="badges-container">
+								<span v-for="b in m.author.badges" :key="b" class="badge">{{ b }}</span>
+							</div>
+						</div>
+						<div class="meta-info">
+							<time class="moment-time">{{ formatTime(m.createdAt) }}</time>
+							<span v-if="m.location" class="location-separator">·</span>
+							<span v-if="m.location" class="location">{{ m.location }}</span>
+						</div>
+					</div>
+				</div>
 
-          <!-- 内容 -->
-          <div class="moment-content">
-            <p class="moment-text">{{ m.content }}</p>
+				<!-- 内容 -->
+				<div class="moment-content">
+					<p class="moment-text">
+						{{ m.content }}
+					</p>
 
-            <!-- 图片（已绑定点击事件，但无模态框） -->
-            <div v-if="m.images?.length" class="moment-images" :class="{ 'single-image': m.images.length === 1, 'grid-images': m.images.length > 1 }">
-              <img
-                v-for="img in m.images"
-                :key="img"
-                :src="img"
-                class="moment-image"
-                :class="{ 'grid-item': m.images.length > 1 }"
-                alt="即刻图片"
-                @click="openPhotoPreview(img, m.images, m.images.indexOf(img))"
-              >
-            </div>
-          </div>
-        </article>
-      </div>
+					<!-- 图片（已绑定点击事件，但无模态框） -->
+					<div v-if="m.images?.length" class="moment-images" :class="{ 'single-image': m.images.length === 1, 'grid-images': m.images.length > 1 }">
+						<img
+							v-for="img in m.images"
+							:key="img"
+							:src="img"
+							class="moment-image"
+							:class="{ 'grid-item': m.images.length > 1 }"
+							alt="即刻图片"
+							@click="openPhotoPreview(img, m.images, m.images.indexOf(img))"
+						>
+					</div>
+				</div>
+			</article>
+		</div>
 
-      <!-- 分页 -->
-      <div v-if="totalPages > 1" class="pagination">
-        <button :disabled="currentPage === 1" @click="currentPage--" class="pagination-btn">上一页</button>
-        <span class="page-info">第 {{ currentPage }} 页 / 共 {{ totalPages }} 页</span>
-        <button :disabled="currentPage === totalPages" @click="currentPage++" class="pagination-btn">下一页</button>
-      </div>
-    </div>
-  </div>
+		<!-- 分页 -->
+		<div v-if="totalPages > 1" class="pagination">
+			<button :disabled="currentPage === 1" class="pagination-btn" @click="currentPage--">
+				上一页
+			</button>
+			<span class="page-info">第 {{ currentPage }} 页 / 共 {{ totalPages }} 页</span>
+			<button :disabled="currentPage === totalPages" class="pagination-btn" @click="currentPage++">
+				下一页
+			</button>
+		</div>
+	</div>
+</div>
 
-  <!-- 5. 占位：预览模态框（第二步再加） -->
-  <!-- <div v-if="showPreview">...</div> -->
+<!-- 5. 占位：预览模态框（第二步再加） -->
+<!-- <div v-if="showPreview">...</div> -->
 </template>
 
 <style scoped>

@@ -100,7 +100,7 @@ export default defineAppConfig({
 				{ icon: 'ph:chats-bold', text: '​纸笺寄语', url: '/comments' },
 				{ icon: 'ph:lightning-bold', text: '闲言碎语', url: '/essays' },
 				{ icon: 'mingcute:moment-line', text: '微言大义', url: '/moments' },
-				{ icon: 'ph:star-of-david-bold', text: '优良精装', url: '/devices' },
+				{ icon: 'ph:star-of-david-bold', text: '优良精装', url: '/equipment' },
 				{ icon: 'mingcute:bilibili-line', text: '番剧推荐', url: '/anime' },
 				{ icon: 'iconoir:movie', text: '影视剧场', url: '/yingshi' },
 				{ icon: 'mdi-light:book', text: '我的书房', url: '/book' },
