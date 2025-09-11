@@ -5,7 +5,7 @@ import blogConfig from './blog.config'
 import packageJson from './package.json'
 import redirectList from './redirects.json'
 
-// const isLocalGenerate = process.env.LOCAL_GENERATE === 'true'
+const isLocalGenerate = process.env.LOCAL_GENERATE === 'true'
 
 // 此处配置无需修改
 export default defineNuxtConfig({
