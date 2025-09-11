@@ -8,7 +8,7 @@ useSeoMeta({
 })
 
 const layoutStore = useLayoutStore()
-layoutStore.setAside(['blog-stats', 'blog-tech', 'comm-group', 'latest-comments', 'poetry'])
+layoutStore.setAside(['blog-stats', 'blog-tech', 'announcement-card', 'work-status', 'comm-group', 'latest-comments', 'poetry'])
 
 // BUG 若其他页面和 index.vue 共用同一数据源，其 payload 会被置空
 // 此处数据源不采用默认参数，以防归档页面刷新空白

@@ -33,6 +33,10 @@ const basicConfig = {
 // @keep-sorted
 const blogConfig = {
 	...basicConfig,
+	announcement: {
+		enabled: true,
+		message: '欢迎来到我的博客鸭！',
+	},
 
 	article: {
 		categories: {
@@ -88,6 +92,7 @@ const blogConfig = {
 		envId: 'https://kemiao-twikoo.050815.xyz/',
 		preload: 'https://kemiao-twikoo.050815.xyz/',
 	},
+
 }
 
 /** 用于生成 OPML 和友链页面配置 */

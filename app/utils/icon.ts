@@ -3,6 +3,7 @@
 const archIcons = {
 	'服务器': 'ph:hard-drives-fill',
 	'国内 CDN': 'ph:cloud-check-fill',
+	'默认': 'vscode-icons:default-folder-opened',
 	'虚拟主机': 'ph:file-cloud-bold',
 	'Astro': 'simple-icons:astro',
 	'Cloudflare': 'simple-icons:cloudflare',
