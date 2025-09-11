@@ -29,8 +29,22 @@ const formatTime = (d: string) =>
     year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false
   }).replace(/\//g, '-').replace(',', '')
 
-/* 4. 图片预览状态（只留变量，无逻辑） */
+/* 4. 图片预览状态 + 开关（第一步） */
 const showPreview = ref(false)
+const currentPhoto = ref('')
+const currentPhotoIndex = ref(0)
+const currentMomentImages = ref<string[]>([])
+
+const openPhotoPreview = (photo: string, images: string[], index: number) => {
+  currentPhoto.value = photo
+  currentPhotoIndex.value = index
+  currentMomentImages.value = images
+  showPreview.value = true
+}
+
+const closePhotoPreview = () => {
+  showPreview.value = false
+}
 </script>
 
 <template>
@@ -60,7 +74,7 @@ const showPreview = ref(false)
           <div class="moment-content">
             <p class="moment-text">{{ m.content }}</p>
 
-            <!-- 图片 -->
+            <!-- 图片（已绑定点击事件，但无模态框） -->
             <div v-if="m.images?.length" class="moment-images" :class="{ 'single-image': m.images.length === 1, 'grid-images': m.images.length > 1 }">
               <img
                 v-for="img in m.images"
@@ -69,6 +83,7 @@ const showPreview = ref(false)
                 class="moment-image"
                 :class="{ 'grid-item': m.images.length > 1 }"
                 alt="即刻图片"
+                @click="openPhotoPreview(img, m.images, m.images.indexOf(img))"
               >
             </div>
           </div>
@@ -83,10 +98,13 @@ const showPreview = ref(false)
       </div>
     </div>
   </div>
+
+  <!-- 5. 占位：预览模态框（第二步再加） -->
+  <!-- <div v-if="showPreview">...</div> -->
 </template>
 
 <style scoped>
-/* 极简样式，后续再补 */
+/* 样式与上一版相同，已精简 */
 .moments-page { min-height: 100vh; padding: 2rem 0 }
 .container { max-width: 700px; margin: 0 auto; padding: 0 1rem }
 .moments-grid { display: flex; flex-direction: column; gap: 1.5rem }
@@ -101,9 +119,9 @@ const showPreview = ref(false)
 .meta-info { display: flex; align-items: center; gap: .25rem; font-size: .875rem; color: #86868b }
 .moment-text { margin: 0 0 .5rem; font-size: 1rem; line-height: 1.5 }
 .moment-images { margin-top: .75rem }
-.single-image .moment-image { width: 100%; border-radius: 12px; max-height: 400px; object-fit: cover }
+.single-image .moment-image { width: 100%; border-radius: 12px; max-height: 400px; object-fit: cover; cursor: zoom-in }
 .grid-images { display: grid; grid-template-columns: repeat(2,1fr); gap: .5rem }
-.grid-item { width: 100%; height: 100%; border-radius: 8px; object-fit: cover; aspect-ratio: 1 }
+.grid-item { width: 100%; height: 100%; border-radius: 8px; object-fit: cover; aspect-ratio: 1; cursor: zoom-in }
 .pagination { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 2rem }
 .pagination-btn { padding: .5rem 1rem; border: 1px solid #007aff; background: transparent; color: #007aff; border-radius: 8px; font-weight: 500; cursor: pointer }
 .pagination-btn:disabled { opacity: .5; cursor: not-allowed }
