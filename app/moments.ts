@@ -18,15 +18,15 @@ const moments: MomentItem[] = [
 		location: '南京市',
 		createdAt: '2025-09-11 12:30',
 	},
-{
-        id: '2',
-        content: '测试图片',
-        images: [   
-            'https://imgbed.kemeow.top/file/pLwwWj8Y.jpg'
-       ],
-        location: '南京',
-        createdAt: '2025-09-11 14:46'
-    }
+	{
+		id: '2',
+		content: '测试图片',
+		images: [
+			'https://imgbed.kemeow.top/file/pLwwWj8Y.jpg',
+		],
+		location: '南京市',
+		createdAt: '2025-09-11 14:46',
+	},
 ]
 
 // 按创建时间降序排序（最新的在前）
