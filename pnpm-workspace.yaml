@@ -51,6 +51,8 @@ catalogs:
     parse-domain: ^8.2.2
     radash: ^12.1.1
     strip-ansi: ^7.1.2
+  conflicts_framework_h4_1_1:
+    nuxt: ^4.1.1
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
