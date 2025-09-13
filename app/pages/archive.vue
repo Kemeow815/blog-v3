@@ -123,7 +123,7 @@ const yearlyWordCount = computed(() => {
 
 	> .archive-age {
 		position: absolute;
-		right: 0;
+		inset-inline-end: 0;
 		transition: opacity 0.2s;
 
 		> .age-label {
