@@ -34,6 +34,9 @@ const yearlyWordCount = computed(() => {
 </script>
 
 <template>
+<div class="featured-section">
+	<LazyWidgetFeaturedArticlesCarousel />
+</div>
 <div class="archive">
 	<ZOrderToggle
 		v-model:is-ascending="isAscending"

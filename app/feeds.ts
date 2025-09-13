@@ -148,7 +148,7 @@ export default [
 				avatar: 'https://www.zhilu.site/api/avatar.png',
 				archs: ['Nuxt', 'Vercel'],
 				date: '2025-08-29',
-				comment: '',
+				comment: '上游',
 			},
 		],
 	},

@@ -1,58 +1,63 @@
 <!-- PhotoPreviewModal.vue -->
 <script setup lang="ts">
 defineProps<{
-  show: boolean
-  photo: string
-  index: number
-  total: number
+	show: boolean
+	photo: string
+	index: number
+	total: number
 }>()
 
 const emit = defineEmits<{
-  close: []
-  next: []
-  prev: []
+	close: []
+	next: []
+	prev: []
 }>()
 
 /* 键盘 */
 onMounted(() => {
-  const onKey = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') emit('close')
-    else if (e.key === 'ArrowRight') emit('next')
-    else if (e.key === 'ArrowLeft') emit('prev')
-  }
-  window.addEventListener('keydown', onKey)
-  onUnmounted(() => window.removeEventListener('keydown', onKey))
+	const onKey = (e: KeyboardEvent) => {
+		if (e.key === 'Escape')
+			emit('close')
+		else if (e.key === 'ArrowRight')
+			emit('next')
+		else if (e.key === 'ArrowLeft')
+			emit('prev')
+	}
+	window.addEventListener('keydown', onKey)
+	onUnmounted(() => window.removeEventListener('keydown', onKey))
 })
 </script>
 
 <template>
-  <div v-if="show" class="photo-preview-modal" @click="emit('close')">
-    <div class="preview-content" @click.stop>
-      <button class="close-btn" @click="emit('close')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
+<div v-if="show" class="photo-preview-modal" @click="emit('close')">
+	<div class="preview-content" @click.stop>
+		<button class="close-btn" @click="emit('close')">
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+			</svg>
+		</button>
 
-      <div class="preview-image-container">
-        <button v-if="total > 1" class="nav-btn prev-btn" @click="emit('prev')">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="15 18 9 12 15 6"/>
-          </svg>
-        </button>
+		<div class="preview-image-container">
+			<button v-if="total > 1" class="nav-btn prev-btn" @click="emit('prev')">
+				<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<polyline points="15 18 9 12 15 6" />
+				</svg>
+			</button>
 
-        <img :src="photo" class="preview-image" alt="预览图片">
+			<img :src="photo" class="preview-image" alt="预览图片">
 
-        <button v-if="total > 1" class="nav-btn next-btn" @click="emit('next')">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </button>
-      </div>
+			<button v-if="total > 1" class="nav-btn next-btn" @click="emit('next')">
+				<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<polyline points="9 18 15 12 9 6" />
+				</svg>
+			</button>
+		</div>
 
-      <div v-if="total > 1" class="photo-counter">{{ index + 1 }} / {{ total }}</div>
-    </div>
-  </div>
+		<div v-if="total > 1" class="photo-counter">
+			{{ index + 1 }} / {{ total }}
+		</div>
+	</div>
+</div>
 </template>
 
 <style scoped>

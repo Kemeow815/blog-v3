@@ -9,6 +9,7 @@ import {
 	LazyWidgetLatestComments,
 	LazyWidgetPoetry,
 	LazyWidgetToc,
+	LazyWidgetWeather,
 	LazyWidgetWorkStatus,
 } from '#components'
 import { pascal } from 'radash'
@@ -25,6 +26,7 @@ const rawWidgets = {
 	LazyWidgetLatestComments,
 	LazyWidgetPoetry,
 	LazyWidgetToc,
+	LazyWidgetWeather,
 	LazyWidgetWorkStatus,
 }
 

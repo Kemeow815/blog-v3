@@ -6,6 +6,7 @@ updated: 2025-05-15 19:00:50
 categories: [技术分享]
 tags: [Telegram, Music, 音乐播放器]
 image: https://cdn.jsdelivr.net/gh/kmfx/tuchuang@main/img/202505151341967.jpg
+recommended: 7
 ---
 
 ## 来将 Telegram 当音乐播放器吧！
