@@ -2,29 +2,18 @@
 import MiniSearch from 'minisearch'
 
 const props = defineProps<{
-	isOpening?: boolean
+	show?: boolean
 }>()
 
-// 应通过 layoutStore 传递关闭事件
-const layoutStore = useLayoutStore()
-const searchStore = useSearchStore()
-const searchInput = ref<HTMLInputElement>()
+// await 会阻塞渲染
+const { data, status } = useAsyncData(
+	'search',
+	() => queryCollectionSearchSections('content', {
+		ignoredTags: ['pre'],
+	}),
+)
 
-watch(() => props.isOpening, async (isOpen) => {
-	await nextTick()
-	isOpen && searchInput.value?.select()
-})
-
-// TODO: 随机展示热门搜索词
-const { word } = storeToRefs(searchStore)
-const activeIndex = ref(0)
-const listResult = useTemplateRef('list-result')
-
-// TODO 优化搜索框展示速度
-const { data, status } = await useAsyncData('search', () => queryCollectionSearchSections('content', {
-	ignoredTags: ['pre'],
-}))
-
+// TODO: 优化中文分词逻辑
 const miniSearch = new MiniSearch({
 	fields: ['title', 'content'],
 	storeFields: ['title', 'titles', 'content', 'level'],
@@ -34,32 +23,61 @@ const miniSearch = new MiniSearch({
 	},
 })
 
-miniSearch.addAll(toValue(data.value || []))
-const result = computed(() => miniSearch.search(toValue(word)))
+const searchStore = useSearchStore()
+const searchInput = ref<HTMLInputElement>()
+
+const { word } = storeToRefs(searchStore)
+const result = computed(() => {
+	void data.value
+	return miniSearch.search(word.value)
+})
+
+const isKeyboardMode = ref(false)
+const listResult = useTemplateRef('list-result')
+
+const activeIndex = ref(0)
+const activeItem = computed(() => listResult.value?.children[activeIndex.value] as HTMLElement | undefined)
+
+watch(() => props.show, focusInput)
+
+watch(status, (newStatus) => {
+	if (newStatus === 'success' && data.value) {
+		miniSearch.addAll(data.value)
+	}
+})
 
 watch(word, () => {
 	activeIndex.value = 0
 })
 
-watch(activeIndex, (newVal, oldVal) => {
-	if (!result.value?.length)
-		return
-	if (newVal < 0 || newVal >= result.value?.length) {
-		activeIndex.value = oldVal
-	}
-})
+useEventListener('mousemove', () => isKeyboardMode.value = false)
+useEventListener('keydown', () => isKeyboardMode.value = true)
 
-function scrollToActiveItem() {
-	listResult.value?.children[activeIndex.value]?.scrollIntoView({
-		behavior: 'smooth',
-		block: 'nearest',
-	})
+async function focusInput() {
+	await nextTick()
+	searchInput.value?.focus()
+}
+
+function updateActiveIndex(index: number, isKeyboard = false) {
+	focusInput()
+
+	if (index < 0 || index >= result.value?.length)
+		return
+	activeIndex.value = index
+
+	if (isKeyboard)
+		isKeyboardMode.value = true
+
+	if (activeItem.value && isKeyboardMode.value) {
+		activeItem.value.scrollIntoView({
+			block: 'nearest',
+		})
+	}
 }
 
 function openActiveItem() {
-	const item = listResult.value?.children[activeIndex.value] as HTMLElement | undefined
 	// 触发 vue-router 点击事件
-	item?.click()
+	activeItem.value?.click()
 }
 </script>
 
@@ -67,27 +85,27 @@ function openActiveItem() {
 <div class="z-search">
 	<Transition>
 		<div
-			v-if="isOpening"
+			v-if="show"
 			id="z-search-bgmask"
-			@click="layoutStore.toggle('search')"
+			@click="searchStore.toggle()"
 		/>
 	</Transition>
 	<Transition name="float-in">
-		<div v-if="isOpening" id="z-search">
-			<form class="input" :class="{ searching: status === 'pending' }" @submit.prevent>
-				<Icon name="ph:magnifying-glass-bold" />
+		<div v-if="show" id="z-search">
+			<form class="input" @submit.prevent>
+				<Icon :name="status === 'pending' ? 'line-md:loading-alt-loop' : 'ph:magnifying-glass-bold'" />
 
+				<!-- 方向键切换搜索结果不应只在搜索框内触发 -->
 				<input
 					ref="searchInput"
 					v-model="word"
+					type="search"
+					incremental
 					class="search-input"
 					placeholder="键入开始搜索"
 					@keydown.up.prevent
 					@keydown.down.prevent
 				>
-
-				<!-- 方向键切换搜索结果不应只在搜索框内触发 -->
-				<Icon v-if="word" class="close" name="ph:x-bold" @click="word = ''" />
 			</form>
 
 			<TransitionGroup name="expand">
@@ -105,19 +123,21 @@ function openActiveItem() {
 						:key="item.id"
 						v-bind="item"
 						:class="{ active: activeIndex === itemIndex }"
-						@click="layoutStore.toggle('search')"
-						@mouseover="activeIndex = itemIndex"
+						@click="searchStore.toggle()"
+						@mousemove="updateActiveIndex(itemIndex)"
 					/>
 				</ol>
 
 				<div v-if="word && result?.length" class="tip" @click="searchInput?.focus()">
-					<Key code="arrowup" text="↑" @press="activeIndex--, scrollToActiveItem()" />
-					<Key code="arrowdown" text="↓" @press="activeIndex++, scrollToActiveItem()" />
+					<Key code="ArrowUp" text="↑" prevent @press="updateActiveIndex(activeIndex - 1, true)" />
+					<Key code="ArrowDown" text="↓" prevent @press="updateActiveIndex(activeIndex + 1, true)" />
 					切换&emsp;
-					<Key code="Enter" @press="openActiveItem" /> 选择&emsp;
-					<Key code="escape" @press="layoutStore.toggle('search')">
+					<Key code="Enter" @press="openActiveItem" />
+					选择&emsp;
+					<Key code="Escape" @press="searchStore.toggle()">
 						Esc
-					</Key> 关闭
+					</Key>
+					关闭
 				</div>
 			</TransitionGroup>
 		</div>
@@ -171,42 +191,14 @@ function openActiveItem() {
 .input {
 	display: flex;
 	align-items: center;
+	gap: 1em;
 	position: relative;
-	padding: 0 0.5em;
+	padding: 0 1em;
 
-	&::before {
-		content: "";
-		position: absolute;
-		left: -100%;
-		width: 100%;
-		height: 100%;
-		border-inline-end: 1px solid var(--c-primary);
-		background: linear-gradient(to right, transparent 50%, var(--c-primary-soft)) no-repeat;
-		z-index: -1;
-	}
-
-	&.searching::before {
-		animation: scan 1s infinite;
-	}
-
-	.iconify {
-		margin: 0 0.5em;
-	}
-
-	.search-input {
+	> .search-input {
 		width: 100%;
 		padding: 1em 0;
 		outline: none;
-	}
-
-	.close {
-		color: var(--c-text-3);
-		transition: color 0.2s;
-		cursor: pointer;
-
-		&:hover {
-			color: var(--c-text-2);
-		}
 	}
 }
 

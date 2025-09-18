@@ -24,7 +24,7 @@ const categoryIcon = computed(() => getCategoryIcon(categoryLabel.value))
 			{{ description }}
 		</p>
 
-		<div class="article-info" data-allow-mismatch>
+		<div class="article-info">
 			<time
 				v-if="showAllDate || !useUpdated"
 				:datetime="getIsoDatetime(date)"
@@ -111,6 +111,11 @@ const categoryIcon = computed(() => getCategoryIcon(categoryLabel.value))
 	color: var(--cg-color);
 }
 
+// CSR 前空 category 产生 double gap，同时需避免误伤 iconify
+span:not([class]):empty {
+	display: none;
+}
+
 .article-cover {
 	position: absolute;
 	opacity: 0.8;
@@ -119,7 +124,7 @@ const categoryIcon = computed(() => getCategoryIcon(categoryLabel.value))
 	width: min(320px, 50%);
 	height: 100%;
 	margin: 0;
-	mask-image: linear-gradient(to right, transparent, #FFF 50%);
+	mask-image: linear-gradient(to var(--end), transparent, #FFF 50%);
 	transition: all 0.2s;
 	object-fit: cover;
 

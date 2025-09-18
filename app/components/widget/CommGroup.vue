@@ -34,8 +34,8 @@
 }
 
 .tip {
-	margin: 0.2em 0;
 	font-size: 0.9em;
+	line-height: 2;
 }
 
 :deep(.bg-img).bg-img.bg-img {

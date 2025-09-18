@@ -1,5 +1,6 @@
 import type { Nav, NavItem } from '~/types/nav'
 import blogConfig from '~~/blog.config'
+import { version } from '~~/package.json'
 
 // 图标查询：https://yesicon.app/ph
 // 图标插件：https://marketplace.visualstudio.com/items?itemName=antfu.iconify

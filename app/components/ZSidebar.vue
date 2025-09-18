@@ -19,7 +19,7 @@ const { word } = storeToRefs(searchStore)
 		<div class="search-btn sidebar-nav-item gradient-card" @click="layoutStore.toggle('search')">
 			<Icon name="ph:magnifying-glass-bold" />
 			<span class="nav-text">{{ word || '搜索' }}</span>
-			<Key class="keycut" code="K" ctrl />
+			<Key class="keycut" code="K" cmd prevent @press="searchStore.toggle()" />
 		</div>
 
 		<template v-for="(group, groupIndex) in appConfig.nav" :key="groupIndex">
@@ -64,7 +64,7 @@ const { word } = storeToRefs(searchStore)
 		background-color: var(--ld-bg-blur);
 		backdrop-filter: blur(0.5rem);
 		color: currentcolor;
-		transform: translateX(-100%);
+		transform: var(--transform-start-far);
 		transition: transform 0.2s;
 		z-index: 100;
 
