@@ -141,6 +141,9 @@ export default defineNuxtConfig({
 				toc: { depth: 4, searchDepth: 4 },
 			},
 		},
+		experimental: {
+			sqliteConnector: 'native',
+		},
 	},
 
 	hooks: {
