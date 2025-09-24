@@ -32,7 +32,7 @@ const moments: MomentItem[] = [
 		content: '文章更新喽~',
 		location: '南京市',
 		createdAt: '2025-09-24 21:30',
-	},	
+	},
 ]
 
 // 按创建时间降序排序（最新的在前）

@@ -5,7 +5,7 @@ date: 2025-07-17 21:40:50
 updated: 2025-07-17 21:45:50
 categories: [技术分享]
 tags: [Markodwn, 语法, 强调]
-image: https://imgtg.kemeow.top/file/AgACAgUAAyEGAAScqokCAAMKaHj_h2rkMAABtcX1LDXzMH-mlLSFAAIXyTEbCpvIV1d2cz5UpNogAQADAgADeQADNgQ.webp
+image: https://img.314926.xyz/images/2025/09/24/qiangdiao.webp
 ---
 
 > 原文链接: https://markdown.com.cn/basic-syntax/emphasis.html
